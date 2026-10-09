@@ -1,0 +1,10 @@
+[package]
+name = "fppa-rs"
+version = "0.1.0"
+edition = "2024"
+
+description = "Rust userspace infrastructure for PCIe-attached programmable photonic hardware."
+license = ""
+repository = "https://github.com/quantum-computing-files/fppa-rs"
+
+[dependencies]
