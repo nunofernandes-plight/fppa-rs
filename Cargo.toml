@@ -1,11 +1,10 @@
-
-[package]
+﻿[package]
 name = "fppa-rs"
 version = "0.1.0"
 edition = "2024"
 description = "Rust userspace infrastructure for PCIe-attached programmable photonic hardware."
 license = "Apache-2.0"
-repository = "https://github.com/quantum-computing-files/fppa-rs"
+repository = "https://github.com/nunofernandes-plight/fppa-rs"
 
 [dependencies]
 
