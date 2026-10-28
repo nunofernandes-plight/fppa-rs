@@ -1,3 +1,5 @@
+﻿//! Entry point for the fppa-rs application.
+
 mod vfio;
 
 fn main() {
