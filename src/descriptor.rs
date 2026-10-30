@@ -1,2 +1,0 @@
-
- //! DMA transfer descriptor abstractions.
