@@ -1,0 +1,1 @@
+//! FPPA-specific hardware abstractions.
