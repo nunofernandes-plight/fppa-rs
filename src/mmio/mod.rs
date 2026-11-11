@@ -1,4 +1,6 @@
-
- //! Memory-Mapped I/O infrastructure for PCIe device register access.
+ //! Memory-mapped I/O abstractions for PCIe device regions.
 
 pub mod bar;
+
+pub use bar::BarRegion;
+
