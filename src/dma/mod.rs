@@ -1,7 +1,9 @@
+//! DMA abstractions for memory allocation, transfer descriptors, and rings.
 
- //! DMA infrastructure for device-accessible memory and transfers.
-
-//! DMA allocation and buffer management.
 pub mod allocation;
 pub mod descriptor;
 pub mod ring;
+
+pub use allocation::DmaAllocation;
+pub use descriptor::{DmaDescriptor, DmaDirection, DmaTransferStatus};
+pub use ring::DmaRing;
