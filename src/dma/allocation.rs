@@ -32,8 +32,7 @@ impl DmaAllocation {
 
         if alignment == 0 || !alignment.is_power_of_two() {
             return Err(FppaError::InvalidInput(
-                "DMA allocation alignment must be a non-zero power of two"
-                    .to_string(),
+                "DMA allocation alignment must be a non-zero power of two".to_string(),
             ));
         }
 

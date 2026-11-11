@@ -1,4 +1,3 @@
-
 use std::fmt::{Display, Formatter};
 
 /// Common error type for the fppa-rs library.
@@ -53,26 +52,20 @@ impl From<std::io::Error> for FppaError {
         Self::Io(error)
     }
 }
-    
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn error_variants_have_readable_messages() {
-        let invalid_input =
-            FppaError::InvalidInput("buffer size".to_string());
+        let invalid_input = FppaError::InvalidInput("buffer size".to_string());
 
-        let invalid_state =
-            FppaError::InvalidState("device not initialised".to_string());
+        let invalid_state = FppaError::InvalidState("device not initialised".to_string());
 
-        let unsupported =
-            FppaError::UnsupportedOperation("DMA transfer".to_string());
+        let unsupported = FppaError::UnsupportedOperation("DMA transfer".to_string());
 
-        assert_eq!(
-            invalid_input.to_string(),
-            "Invalid input: buffer size"
-        );
+        assert_eq!(invalid_input.to_string(), "Invalid input: buffer size");
 
         assert_eq!(
             invalid_state.to_string(),
@@ -87,24 +80,15 @@ mod tests {
 
     #[test]
     fn io_error_conversion_preserves_original_error() {
-        let original = std::io::Error::new(
-            std::io::ErrorKind::Other,
-            "device unavailable",
-        );
+        let original = std::io::Error::new(std::io::ErrorKind::Other, "device unavailable");
 
         let error = FppaError::from(original);
 
-        assert_eq!(
-            error.to_string(),
-            "I/O error: device unavailable"
-        );
+        assert_eq!(error.to_string(), "I/O error: device unavailable");
 
-        let source = std::error::Error::source(&error)
-            .expect("the original I/O error should be preserved");
+        let source =
+            std::error::Error::source(&error).expect("the original I/O error should be preserved");
 
         assert_eq!(source.to_string(), "device unavailable");
     }
 }
-    
-
-

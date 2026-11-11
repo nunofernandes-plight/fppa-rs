@@ -1,2 +1,2 @@
 
- //! Legacy VFIO container and group-based IOMMU abstractions.
+//! Legacy VFIO container and group-based IOMMU abstractions.

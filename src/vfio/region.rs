@@ -1,2 +1,2 @@
 
- //! Region-level abstractions for VFIO-managed devices.
+//! Region-level abstractions for VFIO-managed devices.

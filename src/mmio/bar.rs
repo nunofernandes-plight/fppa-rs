@@ -1,4 +1,3 @@
-
 //! PCIe Base Address Register (BAR) region metadata.
 
 use crate::error::{FppaError, FppaResult};
@@ -62,9 +61,7 @@ impl BarRegion {
         }
 
         let end = offset.checked_add(length).ok_or_else(|| {
-            FppaError::InvalidInput(
-                "BAR access range calculation overflowed".to_string(),
-            )
+            FppaError::InvalidInput("BAR access range calculation overflowed".to_string())
         })?;
 
         if end > self.size {
@@ -128,6 +125,3 @@ mod tests {
         assert!(bar.validate_range(usize::MAX, 4).is_err());
     }
 }
-
-
-

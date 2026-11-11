@@ -1,4 +1,3 @@
-
 //! DMA ring-buffer abstractions for managing transfer descriptors.
 
 use crate::error::{FppaError, FppaResult};
@@ -163,6 +162,3 @@ mod tests {
         assert!(ring.dequeue().is_none());
     }
 }
-
-
-

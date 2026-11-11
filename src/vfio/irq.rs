@@ -1,2 +1,2 @@
 
- //! Interrupt-handling abstractions for VFIO-managed devices.
+//! Interrupt-handling abstractions for VFIO-managed devices.
