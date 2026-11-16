@@ -1,7 +1,14 @@
 //! FPPA-specific hardware abstractions.
 
 use crate::error::{FppaError, FppaResult};
+use std::time::Duration;
 
+/// Configuration for host-side FPPA device management.
+#[derive(Debug, Clone)]
+pub struct FppaDeviceConfig {
+    initialization_timeout: Duration,
+    device_label: Option<String>,
+}
 /// Represents the operational state of an FPPA device.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum FppaDeviceState {
