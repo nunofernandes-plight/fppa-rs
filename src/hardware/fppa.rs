@@ -9,6 +9,27 @@ pub struct FppaDeviceConfig {
     initialization_timeout: Duration,
     device_label: Option<String>,
 }
+
+impl FppaDeviceConfig {
+    /// Creates a new configuration with the specified initialization timeout
+    /// and optional device label.
+    pub fn new(
+        initialization_timeout: Duration,
+        device_label: Option<String>,
+    ) -> FppaResult<Self> {
+        if initialization_timeout.is_zero() {
+            return Err(FppaError::InvalidInput(
+                "Initialization timeout must be greater than zero".to_string(),
+            ));
+        }
+
+        Ok(Self {
+            initialization_timeout,
+            device_label,
+        })
+    }
+}
+
 /// Represents the operational state of an FPPA device.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum FppaDeviceState {
