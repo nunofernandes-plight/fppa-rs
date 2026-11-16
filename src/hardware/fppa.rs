@@ -1,13 +1,21 @@
 //! FPPA-specific hardware abstractions.
 
+use crate::error::{FppaError, FppaResult};
+
 /// Represents the operational state of an FPPA device.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum FppaDeviceState {
     /// The device has been created but not initialized.
     Uninitialized,
 
-    /// The device has been initialized and is ready for operation.
+    /// Hardware initialization is in progress.
+    Initializing,
+
+    /// Hardware initialization has completed successfully.
     Ready,
+
+    /// Hardware initialization has failed.
+    Failed,
 }
 
 /// Represents an FPPA hardware device.
@@ -27,7 +35,31 @@ impl FppaDevice {
 pub fn state(&self) -> FppaDeviceState {
     self.state
   }
+/// Changes the device state after validating the transition.
+pub(crate) fn transition_to(
+    &mut self,
+    next_state: FppaDeviceState,
+) -> FppaResult<()> {
+    let valid_transition = matches!(
+        (self.state, next_state),
+        (FppaDeviceState::Uninitialized, FppaDeviceState::Initializing)
+            | (FppaDeviceState::Initializing, FppaDeviceState::Ready)
+            | (FppaDeviceState::Initializing, FppaDeviceState::Failed)
+            | (FppaDeviceState::Failed, FppaDeviceState::Initializing)
+    );
 
+    if !valid_transition {
+        return Err(FppaError::InvalidState(format!(
+            "Invalid FPPA device state transition: {:?} -> {:?}",
+            self.state, next_state
+        )));
+    }
+
+    self.state = next_state;
+
+    Ok(())
+}
+    
 }  
 
 
