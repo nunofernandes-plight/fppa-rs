@@ -1,5 +1,5 @@
 
-//! FPPA-specific hardware abstractions.
+// FPPA-specific hardware abstractions.
 
 use crate::error::{FppaError, FppaResult};
 use std::time::Duration;
@@ -71,15 +71,27 @@ pub enum FppaDeviceState {
 /// Represents an FPPA hardware device.
 #[derive(Debug)]
 pub struct FppaDevice {
+    config: FppaDeviceConfig,
     state: FppaDeviceState,
 }
 
 impl FppaDevice {
-    /// Creates a new FPPA device in the uninitialized state.
+    /// Creates a new FPPA device using the default configuration.
     pub fn new() -> Self {
+        Self::with_config(FppaDeviceConfig::default())
+    }
+
+    /// Creates a new FPPA device using the supplied configuration.
+    pub fn with_config(config: FppaDeviceConfig) -> Self {
         Self {
+            config,
             state: FppaDeviceState::Uninitialized,
         }
+    }
+
+    /// Returns a reference to the device configuration.
+    pub fn config(&self) -> &FppaDeviceConfig {
+        &self.config
     }
 
     /// Returns the current device state.
@@ -165,6 +177,85 @@ mod tests {
             Duration::from_secs(5)
         );
         assert_eq!(config.device_label(), None);
+    }
+
+    #[test]
+    fn device_new_uses_default_configuration() {
+        let device = FppaDevice::new();
+
+        assert_eq!(
+            device.config().initialization_timeout(),
+            Duration::from_secs(5)
+        );
+        assert_eq!(device.config().device_label(), None);
+        assert_eq!(
+            device.state(),
+            FppaDeviceState::Uninitialized
+        );
+    }
+
+    #[test]
+    fn device_with_config_stores_supplied_configuration() {
+        let config = FppaDeviceConfig::new(
+            Duration::from_secs(10),
+            Some("FPPA device".to_string()),
+        )
+        .unwrap();
+
+        let device = FppaDevice::with_config(config);
+
+        assert_eq!(
+            device.config().initialization_timeout(),
+            Duration::from_secs(10)
+        );
+        assert_eq!(
+            device.config().device_label(),
+            Some("FPPA device")
+        );
+        assert_eq!(
+            device.state(),
+            FppaDeviceState::Uninitialized
+        );
+    }
+
+    #[test]
+    fn device_allows_valid_initialization_transitions() {
+        let mut device = FppaDevice::new();
+
+        device
+            .transition_to(FppaDeviceState::Initializing)
+            .unwrap();
+
+        assert_eq!(
+            device.state(),
+            FppaDeviceState::Initializing
+        );
+
+        device
+            .transition_to(FppaDeviceState::Ready)
+            .unwrap();
+
+        assert_eq!(
+            device.state(),
+            FppaDeviceState::Ready
+        );
+    }
+
+    #[test]
+    fn device_rejects_invalid_transition_without_changing_state() {
+        let mut device = FppaDevice::new();
+
+        let result = device.transition_to(FppaDeviceState::Ready);
+
+        assert!(matches!(
+            result,
+            Err(FppaError::InvalidState(_))
+        ));
+
+        assert_eq!(
+            device.state(),
+            FppaDeviceState::Uninitialized
+        );
     }
 }
 
