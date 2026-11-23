@@ -1,4 +1,3 @@
-
 // FPPA-specific hardware abstractions.
 
 use crate::error::{FppaError, FppaResult};
