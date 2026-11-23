@@ -1,4 +1,3 @@
-
 //! Memory-mapped I/O abstractions for PCIe device regions.
 
 pub mod bar;
