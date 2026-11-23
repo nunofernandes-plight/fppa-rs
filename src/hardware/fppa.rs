@@ -1,4 +1,4 @@
-// FPPA-specific hardware abstractions.
+//! FPPA-specific hardware abstractions.
 
 use crate::error::{FppaError, FppaResult};
 use std::time::Duration;
